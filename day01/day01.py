@@ -1,11 +1,14 @@
 #!/usr/bin/python3
 
-
 if __name__ == "__main__":
     with open("input") as file:
         lines = file.read().splitlines()
 
-    elem = [ int(x) for x in lines ]
+    try:
+        elem = [ int(x) for x in lines ]
+    except ValueError:
+        print("Input must contains only integers")
+        quit()
 
     find = False
     for i in elem:
