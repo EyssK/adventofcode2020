@@ -18,14 +18,14 @@ fn get_id(line: String) -> u32 {
     row_min *8 + col_min
 }
 
-fn scan_empty_seat(mut ids: Vec<u32>) -> u32 {
+fn scan_empty_seat(mut ids: Vec<u32>) -> Result<u32, String> {
     ids.sort_unstable();
     for idx in 0..(ids.len()-2) {
         if ids[idx]+1 != ids[idx+1] {
-            return ids[idx]+1
+            return Ok(ids[idx]+1)
         }
     }
-    0   
+    Err("No seat available".to_string())
 }
 
 fn main() -> Result<(), std::io::Error> {
@@ -42,7 +42,11 @@ fn main() -> Result<(), std::io::Error> {
     }
     println!("part1: {}", id_max);
 
-    let myseat = scan_empty_seat(ids);
+    let myseat;
+    match scan_empty_seat(ids) {
+        Ok(v) => myseat = v,
+        Err(e) => panic!(e),
+    }
     println!("part2: {}", myseat);
     Ok(())
 }
